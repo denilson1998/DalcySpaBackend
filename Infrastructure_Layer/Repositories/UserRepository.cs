@@ -8,18 +8,22 @@ using System.Threading.Tasks;
 
 namespace Infrastructure_Layer.Repositories
 {
-    public class RoleRepository : IRoleRepository
+    public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _dbContext;
-        public RoleRepository(ApplicationDbContext dbContext)
+
+        public UserRepository(ApplicationDbContext dbContext)
         {
-            _dbContext = dbContext;    
-        } 
-        public async Task<Role> CreateRoleAsync(Role role)
+            _dbContext = dbContext;
+        }
+
+        public async Task<User> CreateUserAsync(User user)
         {
-            await _dbContext.Roles.AddAsync(role);
+            await _dbContext.Users.AddAsync(user);
+            
             await _dbContext.SaveChangesAsync();
-            return role;
+
+            return user;
         }
     }
 }

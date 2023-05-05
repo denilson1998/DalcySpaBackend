@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Domain_Layer.Persistence.Repositories
 {
-    public interface IRoleRepository
+    public interface ICategoryRepository
     {
-        public Task<Role> CreateRoleAsync(Role role);
+        public Task<Category> CreateCategoryAsync(Category category);
+
+        public Task<Category> GetCategoryById(int categoryId);
     }
 }
