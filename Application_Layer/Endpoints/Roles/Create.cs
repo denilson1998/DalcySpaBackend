@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Application_Layer.Endpoints.Roles
 {
-    //[Route("api/[controller]")]
     [ApiController]
     public class Create : ControllerBase
     {
