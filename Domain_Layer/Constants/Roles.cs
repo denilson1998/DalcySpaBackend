@@ -1,7 +1,7 @@
 ﻿
 public enum Roles
 {
-    Administrator,
-    Client,
-    Beautician
+    Administrator = 1,
+    Beautician = 2,
+    Client = 3
 }

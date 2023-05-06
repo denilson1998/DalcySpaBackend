@@ -8,5 +8,7 @@ namespace Domain_Layer.Models.Result
 {
     public class RoleResult
     {
+        public int Id { get; set; }
+        public string Description { get; set; }
     }
 }

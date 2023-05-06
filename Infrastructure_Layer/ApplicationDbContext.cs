@@ -18,7 +18,7 @@ namespace Infrastructure_Layer
 
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Person> Peoples { get; set; }
+        public DbSet<Person> People { get; set; }
         public DbSet<Beautician> Beauticians { get; set; }
         public DbSet<Client > Clients { get; set; }
         public DbSet<Category> Categories { get; set; }
