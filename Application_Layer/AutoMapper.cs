@@ -11,7 +11,6 @@ namespace Application_Layer
         {
             CreateMap<Role, RoleResult>();
             CreateMap<User, UserResult>();
-            CreateMap<Category, CategoryResult>();
         }
     }
 }
