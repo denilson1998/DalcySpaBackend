@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Domain_Layer.Persistence.Repositories
 {
-    public interface IRoleRepository
+    public interface IUserRepository
     {
-        public Task<Role> CreateRoleAsync(Role role);
+        public Task<User> CreateUserAsync(User user);
     }
 }
