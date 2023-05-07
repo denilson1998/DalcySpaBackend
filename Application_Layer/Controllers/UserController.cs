@@ -28,79 +28,81 @@ namespace Application_Layer.Controllers
         {
             try
             {
-
-                User user = SetUserObject(request);
-
-                var userCreated = await _userRepository.CreateUserAsync(user);
-
-                if (userCreated is null) 
-                {
-                    return BadRequest("User not Created!");
-                }
-
-                Person person = SetPersonObject(request, userCreated.Id);
+                Person person = SetPersonObject(request);
 
                 var personCreated = await _personRepository.CreatePersonAsync(person);
 
-                var typeOfPerson = SetTypeOfPersonObject(request.RoleId);
-
-                if (typeOfPerson is Beautician)
+                if (personCreated is null)
                 {
-                    await _personRepository.CreateBeauticianAsync((Beautician)typeOfPerson);
+                    return BadRequest("Person not Created!");
+                }
+
+                if (request.RoleId == (int)Roles.Beautician)
+                {
+                    Beautician beautician = SetBeauticianObject(personCreated.Id);
+
+                    await _personRepository.CreateBeauticianAsync(beautician);
                 }
                 else
                 {
-                    await _personRepository.CreateClientAsync((Client)typeOfPerson);
+                    Client client = SetClientObject(personCreated.Id);
+
+                    await _personRepository.CreateClientAsync(client);
                 }
+
+                User user = SetUserObject(request, personCreated.Id);
+
+                var userCreated = await _userRepository.CreateUserAsync(user);
 
                 var response = _mapper.Map<UserResult>(userCreated);
 
                 return Created("User created!", response);
             }
-            catch (Exception exc)
+            catch (Exception)
             {
 
-                throw new Exception(exc.Message);
+                throw;
             }
         }
 
-        private static User SetUserObject(UserCommand user)
+        private static User SetUserObject(UserCommand user, int personId)
         {
             return new User
             {
                 Email = user.Email,
                 Password = user.Password,
-                Role = (Roles)user.RoleId
+                RoleId = (Roles)user.RoleId,
+                PersonId = personId
             };
         } 
 
-        private static Person SetPersonObject(UserCommand person, int UserId)
+        private static Person SetPersonObject(UserCommand person)
         {
             return new Person
             {
                 CellphoneNumber = person.CellphoneNumber,
                 Ci = person.Ci,
                 LastName = person.LastName,
-                Name = person.Name,
-                UserId = UserId
+                Name = person.Name
             };
         }
 
-        private static Person SetTypeOfPersonObject(int RoleId)
+        private static Client SetClientObject(int personId)
         {
-            if ((Roles)RoleId is Roles.Client)
+            
+            return new Client
             {
-                return new Client
-                {
-                    PersonId = RoleId
-                };
-            }
-
-            return new Beautician
-            {
-                PersonId = RoleId
+                PersonId = personId
             };
 
+        }
+
+        private static Beautician SetBeauticianObject(int personId)
+        {
+            return new Beautician
+            {
+                PersonId = personId
+            };
         }
     }
 }
