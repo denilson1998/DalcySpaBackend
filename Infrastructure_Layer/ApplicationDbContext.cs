@@ -22,5 +22,6 @@ namespace Infrastructure_Layer
         public DbSet<Beautician> Beauticians { get; set; }
         public DbSet<Client > Clients { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Service> Services { get; set; }
     }
 }
