@@ -13,6 +13,7 @@ namespace Application_Layer
             CreateMap<User, CreateUserResult>();
             CreateMap<Category, CreateCategoryResult>();
             CreateMap<Service, CreateServiceResult>();
+            CreateMap<Turn, CreateTurnResult>();
         }
     }
 }
