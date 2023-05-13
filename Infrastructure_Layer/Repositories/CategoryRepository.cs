@@ -1,5 +1,6 @@
 ﻿using Domain_Layer.Entities;
 using Domain_Layer.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,11 @@ namespace Infrastructure_Layer.Repositories
             await _dbContext.SaveChangesAsync();
 
             return category;
+        }
+
+        public async Task<List<Category>> GetAllCategories()
+        {
+            return await _dbContext.Categories.ToListAsync();
         }
     }
 }
