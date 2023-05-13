@@ -13,18 +13,30 @@ namespace Application_Layer.Controllers
     public class ServiceController : ControllerBase
     {
         private readonly IServiceRepository _serviceRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
-        public ServiceController(IServiceRepository serviceRepository, IMapper mapper)
+        public ServiceController(IServiceRepository serviceRepository, ICategoryRepository categoryRepository, IMapper mapper)
         {
             _serviceRepository = serviceRepository;
+            _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
 
         [HttpPost("CreateService")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<CreateServiceResult>> CreateService(CreateServiceCommand request)
         {
             try
             {
+
+                Category category = await _categoryRepository.GetCategoryByIdAsync(request.CategoryId);
+
+                if (category is null)
+                {
+                    return NotFound("Category not found.");
+                }
+
                 Service service = SetServiceObject(request);
 
                 var serviceCreated = await _serviceRepository.CreateServiceAsync(service);
@@ -32,6 +44,31 @@ namespace Application_Layer.Controllers
                 var result = _mapper.Map<CreateServiceResult>(serviceCreated);
 
                 return Created("Service created", result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet("GetCategoryServices/{categoryId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<List<CreateServiceResult>>> GetCategoryServices(int categoryId)
+        {
+            try
+            {
+                var services = await _serviceRepository.GetServicesByCategoryId(categoryId);
+
+                if (services.Count == 0)
+                {
+                    return NotFound("There are no services with this categoryId");
+                }
+
+                var result = _mapper.Map<List<CreateServiceResult>>(services);
+
+                return Ok(result);
             }
             catch (Exception)
             {

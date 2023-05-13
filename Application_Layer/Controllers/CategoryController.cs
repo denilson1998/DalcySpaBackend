@@ -21,6 +21,8 @@ namespace Application_Layer.Controllers
         }
 
         [HttpPost("CreateCategory")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<CreateCategoryResult>> CreateCategory(CreateCategoryCommand request)
         {
             try
@@ -50,7 +52,7 @@ namespace Application_Layer.Controllers
             {
                 var categories = await _categoryRepository.GetAllCategories();
 
-                if (categories is null)
+                if (categories.Count == 0)
                 {
                     return NotFound("There are no categories.");
                 }
