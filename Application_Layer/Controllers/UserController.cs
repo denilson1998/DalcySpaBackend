@@ -24,7 +24,7 @@ namespace Application_Layer.Controllers
         }
 
         [HttpPost("CreateUser")]
-        public async Task<ActionResult<UserResult>> CreateUser(UserCommand request)
+        public async Task<ActionResult<CreateUserResult>> CreateUser(CreateUserCommand request)
         {
             try
             {
@@ -54,9 +54,9 @@ namespace Application_Layer.Controllers
 
                 var userCreated = await _userRepository.CreateUserAsync(user);
 
-                var response = _mapper.Map<UserResult>(userCreated);
+                var result = _mapper.Map<CreateUserResult>(userCreated);
 
-                return Created("User created!", response);
+                return Created("User created!", result);
             }
             catch (Exception)
             {
@@ -65,7 +65,7 @@ namespace Application_Layer.Controllers
             }
         }
 
-        private static User SetUserObject(UserCommand user, int personId)
+        private static User SetUserObject(CreateUserCommand user, int personId)
         {
             return new User
             {
@@ -76,7 +76,7 @@ namespace Application_Layer.Controllers
             };
         } 
 
-        private static Person SetPersonObject(UserCommand person)
+        private static Person SetPersonObject(CreateUserCommand person)
         {
             return new Person
             {

@@ -22,7 +22,7 @@ namespace Application_Layer.Endpoints
             }
 
             [HttpPost("CreateRole")]
-            public async Task<ActionResult<RoleResult>> CreateRole(RoleCommand request)
+            public async Task<ActionResult<CreateRoleResult>> CreateRole(CreateRoleCommand request)
             {
                 try
                 {
@@ -30,7 +30,7 @@ namespace Application_Layer.Endpoints
 
                     var roleCreated = await _roleRepository.CreateRoleAsync(role);
 
-                    var result = _mapper.Map<RoleResult>(roleCreated);
+                    var result = _mapper.Map<CreateRoleResult>(roleCreated);
 
                     return Created("", result);
                 }
@@ -41,7 +41,7 @@ namespace Application_Layer.Endpoints
                 }
             }
             
-            private static Role SetRoleObject(RoleCommand roleData)
+            private static Role SetRoleObject(CreateRoleCommand roleData)
             {
                 return new Role
                 {
