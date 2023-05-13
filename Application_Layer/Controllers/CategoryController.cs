@@ -66,6 +66,31 @@ namespace Application_Layer.Controllers
             }
         }
 
+        [HttpGet("GetCategory/{categoryId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<CreateCategoryResult>> GetCategory(int categoryId)
+        {
+            try
+            {
+                var category= await _categoryRepository.GetCategoryByIdAsync(categoryId);
+
+                if (category is null)
+                {
+                    return NotFound("Category not found.");
+                }
+
+                var result = _mapper.Map<CreateCategoryResult>(category);
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         private static Category SetCategoryObject(CreateCategoryCommand category)
         {
             return new Category
