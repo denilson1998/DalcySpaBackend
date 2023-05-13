@@ -41,6 +41,31 @@ namespace Application_Layer.Controllers
             }
         }
 
+        [HttpGet("ListCategories")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<List<CreateCategoryResult>>> ListCategories()
+        {
+            try
+            {
+                var categories = await _categoryRepository.GetAllCategories();
+
+                if (categories is null)
+                {
+                    return NotFound("There are no categories.");
+                }
+
+                var result = _mapper.Map<List<CreateCategoryResult>>(categories);
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         private static Category SetCategoryObject(CreateCategoryCommand category)
         {
             return new Category

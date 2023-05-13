@@ -24,6 +24,8 @@ namespace Application_Layer.Controllers
         }
 
         [HttpPost("CreateUser")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<CreateUserResult>> CreateUser(CreateUserCommand request)
         {
             try
