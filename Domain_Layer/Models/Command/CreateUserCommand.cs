@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain_Layer.Models.Command
 {
-    public class UserCommand
+    public class CreateUserCommand
     {
         [Required]
         public string Email { get; set; } = string.Empty;

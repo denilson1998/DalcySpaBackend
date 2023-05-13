@@ -10,7 +10,5 @@ namespace Domain_Layer.Persistence.Repositories
     public interface ICategoryRepository
     {
         public Task<Category> CreateCategoryAsync(Category category);
-
-        public Task<Category> GetCategoryById(int categoryId);
     }
 }

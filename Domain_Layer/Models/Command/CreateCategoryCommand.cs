@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain_Layer.Models.Command
 {
-    public class RoleCommand
+    public class CreateCategoryCommand
     {
-        public string Description { get; set; } = string.Empty;
+        [Required]
+        public string Description { get; set; } 
     }
 }

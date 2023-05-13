@@ -1,0 +1,52 @@
+﻿using AutoMapper;
+using Domain_Layer.Entities;
+using Domain_Layer.Models.Command;
+using Domain_Layer.Models.Result;
+using Domain_Layer.Persistence.Repositories;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Application_Layer.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CategoryController : ControllerBase
+    {
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IMapper _mapper;
+        public CategoryController(ICategoryRepository categoryRepository, IMapper mapper)
+        {
+            _categoryRepository = categoryRepository;
+            _mapper = mapper;
+        }
+
+        [HttpPost("CreateCategory")]
+        public async Task<ActionResult<CreateCategoryResult>> CreateCategory(CreateCategoryCommand request)
+        {
+            try
+            {
+                Category category = SetCategoryObject(request);
+
+                var categoryCreated = await _categoryRepository.CreateCategoryAsync(category);
+
+                var result = _mapper.Map<CreateCategoryResult>(categoryCreated);
+
+                return Created("Category created", result);
+                
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private static Category SetCategoryObject(CreateCategoryCommand category)
+        {
+            return new Category
+            {
+               Description = category.Description
+            };
+        }
+    }
+}

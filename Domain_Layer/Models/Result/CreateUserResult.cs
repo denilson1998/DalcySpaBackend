@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain_Layer.Models.Result
 {
-    public class UserResult
+    public class CreateUserResult
     {
         public int Id { get; set; }
         public string Email { get; set; } = string.Empty;

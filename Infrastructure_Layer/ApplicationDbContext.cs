@@ -21,5 +21,6 @@ namespace Infrastructure_Layer
         public DbSet<Person> People { get; set; }
         public DbSet<Beautician> Beauticians { get; set; }
         public DbSet<Client > Clients { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

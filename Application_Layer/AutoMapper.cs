@@ -9,8 +9,9 @@ namespace Application_Layer
     {
         public AutoMapper()
         {
-            CreateMap<Role, RoleResult>();
-            CreateMap<User, UserResult>();
+            CreateMap<Role, CreateRoleResult>();
+            CreateMap<User, CreateUserResult>();
+            CreateMap<Category, CreateCategoryResult>();
         }
     }
 }
