@@ -12,5 +12,7 @@ namespace Domain_Layer.Persistence.Repositories
         public Task<Service> CreateServiceAsync(Service service);
 
         public Task<List<Service>> GetServicesByCategoryId(int categoryId);
+
+        public Task<Service> GetServiceByIdAsync(int serviceId);
     }
 }

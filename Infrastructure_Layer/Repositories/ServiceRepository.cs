@@ -32,5 +32,12 @@ namespace Infrastructure_Layer.Repositories
                 .Where(s => s.CategoryId == categoryId)
                 .ToListAsync();
         }
+
+        public async Task<Service> GetServiceByIdAsync(int serviceId)
+        {
+            return await _dbContext.Services
+                        .Where(s => s.Id == serviceId)
+                        .FirstOrDefaultAsync();
+        }
     }
 }

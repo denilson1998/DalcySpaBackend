@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Domain_Layer.Persistence.Repositories
 {
-    public interface ITurnRepository
+    public interface IServiceTurnRepository
     {
-        public Task<Turn> CreateTurnAsync(Turn turn);
+        public Task<ServiceTurn> CreateServiceTurnAsync(ServiceTurn serviceTurn);
 
-        public Task<Turn> GetTurnByIdAsync(int turnId);
+        public Task<List<ServiceTurn>> GetTurnsOfService(int serviceId);
     }
 }

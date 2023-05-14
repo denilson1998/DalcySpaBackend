@@ -1,5 +1,6 @@
 ﻿using Domain_Layer.Entities;
 using Domain_Layer.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,13 @@ namespace Infrastructure_Layer.Repositories
             await _dbContext.SaveChangesAsync();
 
             return turn;
+        }
+
+        public async Task<Turn> GetTurnByIdAsync(int turnId)
+        {
+            return await _dbContext.Turns
+                        .Where(t => t.Id == turnId)
+                        .FirstOrDefaultAsync();
         }
     }
 }
