@@ -23,6 +23,7 @@ builder.Services.AddTransient<IPersonRepository, PersonRepository>();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 builder.Services.AddTransient<IServiceRepository, ServiceRepository>();
 builder.Services.AddTransient<ITurnRepository, TurnRepository>();
+builder.Services.AddTransient<IServiceTurnRepository, ServiceTurnRepository>();
 
 var app = builder.Build();
 

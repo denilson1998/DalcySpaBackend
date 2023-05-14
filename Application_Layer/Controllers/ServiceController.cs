@@ -77,6 +77,30 @@ namespace Application_Layer.Controllers
             }
         }
 
+        [HttpGet("GetService/{serviceId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<CreateServiceResult>> GetService(int serviceId)
+        {
+            try
+            {
+                Service service = await _serviceRepository.GetServiceByIdAsync(serviceId);
+
+                if (service is null)
+                {
+                    return NotFound("Service not found.");
+                }
+
+                var result = _mapper.Map<CreateServiceResult>(service);
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         private static Service SetServiceObject(CreateServiceCommand service)
         {
             return new Service()

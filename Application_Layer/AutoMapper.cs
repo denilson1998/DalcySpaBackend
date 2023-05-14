@@ -14,6 +14,7 @@ namespace Application_Layer
             CreateMap<Category, CreateCategoryResult>();
             CreateMap<Service, CreateServiceResult>();
             CreateMap<Turn, CreateTurnResult>();
+            CreateMap<ServiceTurn, CreateServiceTurnResult>();
         }
     }
 }

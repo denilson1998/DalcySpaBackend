@@ -21,6 +21,8 @@ namespace Application_Layer.Controllers
         }
 
         [HttpPost("CreateTurn")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<CreateTurnResult>> CreateTurn(CreateTurnCommand request)
         {
             try
@@ -40,6 +42,30 @@ namespace Application_Layer.Controllers
             }
         }
 
+        [HttpGet("GetTurn/{turnId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<CreateTurnResult>> GetTurn(int turnId)
+        {
+            try
+            {
+                Turn turn = await _turnRepository.GetTurnByIdAsync(turnId);
+
+                if (turn is null)
+                {
+                    return NotFound("Turn not found.");
+                }
+
+                var result = _mapper.Map<CreateTurnResult>(turn);
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         private static Turn SetTurnObject(CreateTurnCommand turn)
         {
             return new Turn

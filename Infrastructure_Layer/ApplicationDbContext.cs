@@ -24,5 +24,12 @@ namespace Infrastructure_Layer
         public DbSet<Category> Categories { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Turn> Turns { get; set; }
+        public DbSet<ServiceTurn> ServicesTurns { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ServiceTurn>()
+                  .HasKey(s => new { s.ServiceId, s.TurnId });
+        }
     }
 }
