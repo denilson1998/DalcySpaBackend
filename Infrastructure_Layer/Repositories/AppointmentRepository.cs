@@ -39,5 +39,12 @@ namespace Infrastructure_Layer.Repositories
                          .Where(c => c.ClientId == clientId)
                          .ToListAsync();
         }
+
+        public async Task<Appointment> GetAppointmentByIdAsync(int appointmentId)
+        {
+            return await _dbContext.Appointments
+                         .Where(a => a.Id == appointmentId)
+                         .FirstOrDefaultAsync();
+        }
     }
 }

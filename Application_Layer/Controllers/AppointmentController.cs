@@ -120,6 +120,31 @@ namespace Application_Layer.Controllers
             }
         }
 
+        [HttpGet("GetAppointment/{appointmentId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<CreateAppointmentResult>> GetAppointment(int appointmentId)
+        {
+            try
+            {
+                Appointment appointment = await _appointmentRepository.GetAppointmentByIdAsync(appointmentId);
+
+                if (appointment is null)
+                {
+                    return BadRequest("Appointment not found.");
+                }
+
+                var result = _mapper.Map<CreateAppointmentResult>(appointment);
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         private static Appointment SetAppointmentObject(CreateAppointmentCommand appointment)
         {
             return new Appointment
