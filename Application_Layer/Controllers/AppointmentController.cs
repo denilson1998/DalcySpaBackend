@@ -70,6 +70,56 @@ namespace Application_Layer.Controllers
             }
         }
 
+        [HttpGet("GetClientAppointments/{clientId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<List<CreateAppointmentResult>>> GetClientAppointments(int clientId)
+        {
+            try
+            {
+                List<Appointment> appointments = await _appointmentRepository.GetAppointmentsByClientId(clientId);
+
+                if (appointments.Count == 0)
+                {
+                    return BadRequest("There are no appointments for this client.");
+                }
+
+                var result = _mapper.Map<List<CreateAppointmentResult>>(appointments);
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet("GetBeauticianAppointments/{beauticianId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<List<CreateAppointmentResult>>> GetBeauticianAppointments(int beauticianId)
+        {
+            try
+            {
+                List<Appointment> appointments = await _appointmentRepository.GetAppointmentsByBeauticianId(beauticianId);
+
+                if (appointments.Count == 0)
+                {
+                    return BadRequest("There are no appointments for this beautician.");
+                }
+
+                var result = _mapper.Map<List<CreateAppointmentResult>>(appointments);
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         private static Appointment SetAppointmentObject(CreateAppointmentCommand appointment)
         {
             return new Appointment
