@@ -1,5 +1,6 @@
 ﻿using Domain_Layer.Entities;
 using Domain_Layer.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,13 @@ namespace Infrastructure_Layer.Repositories
             await _dbContext.SaveChangesAsync();
 
             return observation;
+        }
+
+        public async Task<List<Observation>> GetObservations(int appointmentId)
+        {
+            return await _dbContext.Observations
+                         .Where(o => o.AppointmentId == appointmentId)
+                         .ToListAsync();
         }
     }
 }

@@ -10,5 +10,7 @@ namespace Domain_Layer.Persistence.Repositories
     public interface IObservationRepository
     {
         public Task<Observation> CreateObservationAsync(Observation observation);
+
+        public Task<List<Observation>> GetObservations(int appointmentId);
     }
 }
