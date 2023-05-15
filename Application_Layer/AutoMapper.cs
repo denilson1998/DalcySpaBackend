@@ -15,6 +15,9 @@ namespace Application_Layer
             CreateMap<Service, CreateServiceResult>();
             CreateMap<Turn, CreateTurnResult>();
             CreateMap<ServiceTurn, CreateServiceTurnResult>();
+            CreateMap<Appointment, CreateAppointmentResult>();
+            CreateMap<Client, GetTypeOfUser>();
+            CreateMap<Beautician, GetTypeOfUser>();
         }
     }
 }

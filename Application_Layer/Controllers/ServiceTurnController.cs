@@ -84,6 +84,31 @@ namespace Application_Layer.Controllers
             }
         }
 
+        [HttpGet("GetServiceTurn/{serviceId}/{turnId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<List<CreateServiceTurnResult>>> GetTurnsOfService(int serviceId, int turnId)
+        {
+            try
+            {
+                ServiceTurn serviceTurn = await _serviceTurnRespository.GetServiceTurnAsync(serviceId, turnId);
+
+                if (serviceTurn is null)
+                {
+                    return BadRequest("ServiceTurn not found.");
+                }
+
+                var result = _mapper.Map<CreateServiceTurnResult>(serviceTurn);
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         private static ServiceTurn SetServiceTurnObject(CreateServiceTurnCommand serviceTurn)
         {
             return new ServiceTurn
