@@ -67,6 +67,56 @@ namespace Application_Layer.Controllers
             }
         }
 
+        [HttpGet("GetClient/{clientId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<GetTypeOfUser>> GetClient(int clientId)
+        {
+            try
+            {
+                Client client = await _userRepository.GetClientAsync(clientId);
+
+                if (client is null)
+                {
+                    return NotFound("Client not found.");
+                }
+
+                var result = _mapper.Map<GetTypeOfUser>(client);
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet("GetBeautician/{beauticianId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<GetTypeOfUser>> GetBeautician(int beauticianId)
+        {
+            try
+            {
+                Beautician beautician = await _userRepository.GetBeauticianAsync(beauticianId);
+
+                if (beautician is null)
+                {
+                    return NotFound("Client not found.");
+                }
+
+                var result = _mapper.Map<GetTypeOfUser>(beautician);
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         private static User SetUserObject(CreateUserCommand user, int personId)
         {
             return new User

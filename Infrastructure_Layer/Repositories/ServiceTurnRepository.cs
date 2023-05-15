@@ -26,6 +26,13 @@ namespace Infrastructure_Layer.Repositories
             return serviceTurn;
         }
 
+        public async Task<ServiceTurn> GetServiceTurnAsync(int serviceId, int turnId)
+        {
+            return await _dbContext.ServicesTurns
+                          .Where(st => st.ServiceId == serviceId && st.TurnId == turnId)
+                          .FirstOrDefaultAsync();
+        }
+
         public async Task<List<ServiceTurn>> GetTurnsOfService(int serviceId)
         {
             return await _dbContext.ServicesTurns

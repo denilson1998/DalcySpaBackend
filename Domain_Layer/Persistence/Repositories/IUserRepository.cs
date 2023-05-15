@@ -10,5 +10,9 @@ namespace Domain_Layer.Persistence.Repositories
     public interface IUserRepository
     {
         public Task<User> CreateUserAsync(User user);
+
+        public Task<Client> GetClientAsync(int clientId);
+
+        public Task<Beautician> GetBeauticianAsync(int beauticianId);
     }
 }

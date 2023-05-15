@@ -12,5 +12,7 @@ namespace Domain_Layer.Persistence.Repositories
         public Task<ServiceTurn> CreateServiceTurnAsync(ServiceTurn serviceTurn);
 
         public Task<List<ServiceTurn>> GetTurnsOfService(int serviceId);
+
+        public Task<ServiceTurn> GetServiceTurnAsync(int serviceId, int turnId);
     }
 }
