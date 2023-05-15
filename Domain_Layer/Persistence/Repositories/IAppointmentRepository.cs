@@ -10,5 +10,9 @@ namespace Domain_Layer.Persistence.Repositories
     public interface IAppointmentRepository
     {
         public Task<Appointment> CreateAppointmentAsync(Appointment appointment);
+
+        public Task<List<Appointment>> GetAppointmentsByClientId(int clientId);
+
+        public Task<List<Appointment>> GetAppointmentsByBeauticianId(int beauticianId);
     }
 }
