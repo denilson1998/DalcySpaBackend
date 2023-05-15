@@ -14,5 +14,7 @@ namespace Domain_Layer.Persistence.Repositories
         public Task<List<Appointment>> GetAppointmentsByClientId(int clientId);
 
         public Task<List<Appointment>> GetAppointmentsByBeauticianId(int beauticianId);
+
+        public Task<Appointment> GetAppointmentByIdAsync(int appointmentId);
     }
 }

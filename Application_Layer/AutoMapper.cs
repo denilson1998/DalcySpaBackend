@@ -18,6 +18,7 @@ namespace Application_Layer
             CreateMap<Appointment, CreateAppointmentResult>();
             CreateMap<Client, GetTypeOfUser>();
             CreateMap<Beautician, GetTypeOfUser>();
+            CreateMap<Observation, CreateObservationResult>();
         }
     }
 }

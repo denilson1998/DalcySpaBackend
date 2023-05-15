@@ -26,6 +26,7 @@ namespace Infrastructure_Layer
         public DbSet<Turn> Turns { get; set; }
         public DbSet<ServiceTurn> ServicesTurns { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Observation> Observations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

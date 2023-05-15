@@ -25,6 +25,7 @@ builder.Services.AddTransient<IServiceRepository, ServiceRepository>();
 builder.Services.AddTransient<ITurnRepository, TurnRepository>();
 builder.Services.AddTransient<IServiceTurnRepository, ServiceTurnRepository>();
 builder.Services.AddTransient<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddTransient<IObservationRepository, ObservationRepository>();
 
 var app = builder.Build();
 
