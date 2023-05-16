@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using Domain_Layer.Entities;
 using Domain_Layer.Models.Command;
 using Domain_Layer.Models.Result;
-using Domain_Layer.Entities;
 using Domain_Layer.Persistence.Repositories;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Application_Layer.Controllers
 {
@@ -12,65 +12,92 @@ namespace Application_Layer.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly ICategoryRepository _categoryRepository;
-
-        public CategoryController(IMapper mapper, ICategoryRepository categoryRepository)
+        private readonly IMapper _mapper;
+        public CategoryController(ICategoryRepository categoryRepository, IMapper mapper)
         {
-            _mapper = mapper;
             _categoryRepository = categoryRepository;
+            _mapper = mapper;
         }
 
         [HttpPost("CreateCategory")]
-        public async Task<ActionResult<CategoryResult>> CreateCategory(CategoryCommand command)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<CreateCategoryResult>> CreateCategory(CreateCategoryCommand request)
         {
             try
             {
-                Category category = SetCategoryObject(command);
+                Category category = SetCategoryObject(request);
 
                 var categoryCreated = await _categoryRepository.CreateCategoryAsync(category);
 
-                var result = _mapper.Map<CategoryResult>(categoryCreated);
+                var result = _mapper.Map<CreateCategoryResult>(categoryCreated);
 
-                return Created("Category Created", result);
-
+                return Created("Category created", result);
+                
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
-        [HttpGet("GetCategoryById/{CategoryId}")]
-        public async Task<ActionResult<CategoryResult>> GetCategoryById(int CategoryId)
+        [HttpGet("ListCategories")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<List<CreateCategoryResult>>> ListCategories()
         {
             try
             {
-                Category category = await _categoryRepository.GetCategoryById(CategoryId);
+                var categories = await _categoryRepository.GetAllCategories();
 
-                if (category is null)
+                if (categories.Count == 0)
                 {
-                    return BadRequest("Category not found");
+                    return NotFound("There are no categories.");
                 }
 
-                var result = _mapper.Map<CategoryResult>(category);
+                var result = _mapper.Map<List<CreateCategoryResult>>(categories);
 
                 return Ok(result);
-
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
-        private static Category SetCategoryObject(CategoryCommand category)
+        [HttpGet("GetCategory/{categoryId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<CreateCategoryResult>> GetCategory(int categoryId)
+        {
+            try
+            {
+                var category= await _categoryRepository.GetCategoryByIdAsync(categoryId);
+
+                if (category is null)
+                {
+                    return NotFound("Category not found.");
+                }
+
+                var result = _mapper.Map<CreateCategoryResult>(category);
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private static Category SetCategoryObject(CreateCategoryCommand category)
         {
             return new Category
             {
-                Description = category.Description
+               Description = category.Description
             };
         }
     }

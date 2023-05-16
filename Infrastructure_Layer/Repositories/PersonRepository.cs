@@ -18,7 +18,7 @@ namespace Infrastructure_Layer.Repositories
 
         public async Task<Person> CreatePersonAsync(Person person)
         {
-            await _dbContext.Peoples.AddAsync(person);
+            await _dbContext.People.AddAsync(person);
 
             await _dbContext.SaveChangesAsync();
 

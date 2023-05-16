@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain_Layer.Entities
+namespace Domain_Layer.Models.Result
 {
-    public class Appointment
+    public class CreateAppointmentResult
     {
-        [Key]
         public int Id { get; set; }
         public string Description { get; set; }
         public DateTime Date { get; set; }

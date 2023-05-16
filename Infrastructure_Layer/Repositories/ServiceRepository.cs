@@ -1,5 +1,6 @@
 ﻿using Domain_Layer.Entities;
 using Domain_Layer.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,6 @@ namespace Infrastructure_Layer.Repositories
     public class ServiceRepository : IServiceRepository
     {
         private readonly ApplicationDbContext _dbContext;
-
         public ServiceRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -24,6 +24,20 @@ namespace Infrastructure_Layer.Repositories
             await _dbContext.SaveChangesAsync();
 
             return service;
+        }
+
+        public async Task<List<Service>> GetServicesByCategoryId(int categoryId)
+        {
+            return await _dbContext.Services
+                .Where(s => s.CategoryId == categoryId)
+                .ToListAsync();
+        }
+
+        public async Task<Service> GetServiceByIdAsync(int serviceId)
+        {
+            return await _dbContext.Services
+                        .Where(s => s.Id == serviceId)
+                        .FirstOrDefaultAsync();
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Infrastructure_Layer.Repositories
     public class CategoryRepository : ICategoryRepository
     {
         private readonly ApplicationDbContext _dbContext;
+
         public CategoryRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -20,19 +21,21 @@ namespace Infrastructure_Layer.Repositories
         public async Task<Category> CreateCategoryAsync(Category category)
         {
             await _dbContext.Categories.AddAsync(category);
-
+            
             await _dbContext.SaveChangesAsync();
 
             return category;
         }
 
-        public async Task<Category> GetCategoryById(int categoryId)
+        public async Task<List<Category>> GetAllCategories()
         {
-            var category = await _dbContext.Categories
-                                .Where(c => c.Id == categoryId)
-                                .FirstOrDefaultAsync();
+            return await _dbContext.Categories.ToListAsync();
+        }
 
-            return category;
+        public async Task<Category> GetCategoryByIdAsync(int categoryId)
+        {
+            return await _dbContext.Categories
+                .Where(c => c.Id == categoryId).FirstOrDefaultAsync();
         }
     }
 }

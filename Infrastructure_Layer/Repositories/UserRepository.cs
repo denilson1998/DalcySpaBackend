@@ -1,5 +1,6 @@
 ﻿using Domain_Layer.Entities;
 using Domain_Layer.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,20 @@ namespace Infrastructure_Layer.Repositories
             await _dbContext.SaveChangesAsync();
 
             return user;
+        }
+
+        public async Task<Beautician> GetBeauticianAsync(int beauticianId)
+        {
+            return await _dbContext.Beauticians
+                         .Where(c => c.PersonId == beauticianId)
+                         .FirstOrDefaultAsync();
+        }
+
+        public async Task<Client> GetClientAsync(int clientId)
+        {
+            return await _dbContext.Clients
+                         .Where(c => c.PersonId == clientId)
+                         .FirstOrDefaultAsync();
         }
     }
 }

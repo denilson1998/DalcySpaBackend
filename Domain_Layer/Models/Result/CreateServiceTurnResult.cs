@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Domain_Layer.Models.Result
 {
-    public class CategoryResult
+    public class CreateServiceTurnResult
     {
-        public int Id { get; set; }
-        public string Description { get; set; } = string.Empty;
+        public int ServiceId { get; set; }
+        public int TurnId { get; set; }
     }
 }

@@ -24,83 +24,137 @@ namespace Application_Layer.Controllers
         }
 
         [HttpPost("CreateUser")]
-        public async Task<ActionResult<UserResult>> CreateUser(UserCommand request)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<CreateUserResult>> CreateUser(CreateUserCommand request)
         {
             try
             {
-
-                User user = SetUserObject(request);
-
-                var userCreated = await _userRepository.CreateUserAsync(user);
-
-                if (userCreated is null) 
-                {
-                    return BadRequest("User not Created!");
-                }
-
-                Person person = SetPersonObject(request, userCreated.Id);
+                Person person = SetPersonObject(request);
 
                 var personCreated = await _personRepository.CreatePersonAsync(person);
 
-                var typeOfPerson = SetTypeOfPersonObject(request.RoleId);
-
-                if (typeOfPerson is Beautician)
+                if (personCreated is null)
                 {
-                    await _personRepository.CreateBeauticianAsync((Beautician)typeOfPerson);
+                    return BadRequest("Person not Created!");
+                }
+
+                if (request.RoleId == (int)Roles.Beautician)
+                {
+                    Beautician beautician = SetBeauticianObject(personCreated.Id);
+
+                    await _personRepository.CreateBeauticianAsync(beautician);
                 }
                 else
                 {
-                    await _personRepository.CreateClientAsync((Client)typeOfPerson);
+                    Client client = SetClientObject(personCreated.Id);
+
+                    await _personRepository.CreateClientAsync(client);
                 }
 
-                var response = _mapper.Map<UserResult>(userCreated);
+                User user = SetUserObject(request, personCreated.Id);
 
-                return Created("User created!", response);
+                var userCreated = await _userRepository.CreateUserAsync(user);
+
+                var result = _mapper.Map<CreateUserResult>(userCreated);
+
+                return Created("User created!", result);
             }
-            catch (Exception exc)
+            catch (Exception)
             {
 
-                throw new Exception(exc.Message);
+                throw;
             }
         }
 
-        private static User SetUserObject(UserCommand user)
+        [HttpGet("GetClient/{clientId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<GetTypeOfUser>> GetClient(int clientId)
+        {
+            try
+            {
+                Client client = await _userRepository.GetClientAsync(clientId);
+
+                if (client is null)
+                {
+                    return NotFound("Client not found.");
+                }
+
+                var result = _mapper.Map<GetTypeOfUser>(client);
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet("GetBeautician/{beauticianId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<GetTypeOfUser>> GetBeautician(int beauticianId)
+        {
+            try
+            {
+                Beautician beautician = await _userRepository.GetBeauticianAsync(beauticianId);
+
+                if (beautician is null)
+                {
+                    return NotFound("Client not found.");
+                }
+
+                var result = _mapper.Map<GetTypeOfUser>(beautician);
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private static User SetUserObject(CreateUserCommand user, int personId)
         {
             return new User
             {
                 Email = user.Email,
                 Password = user.Password,
-                Role = (Roles)user.RoleId
+                RoleId = (Roles)user.RoleId,
+                PersonId = personId
             };
         } 
 
-        private static Person SetPersonObject(UserCommand person, int UserId)
+        private static Person SetPersonObject(CreateUserCommand person)
         {
             return new Person
             {
                 CellphoneNumber = person.CellphoneNumber,
                 Ci = person.Ci,
                 LastName = person.LastName,
-                Name = person.Name,
-                UserId = UserId
+                Name = person.Name
             };
         }
 
-        private static Person SetTypeOfPersonObject(int RoleId)
+        private static Client SetClientObject(int personId)
         {
-            if ((Roles)RoleId is Roles.Client)
+            
+            return new Client
             {
-                return new Client
-                {
-                    PersonId = RoleId
-                };
-            }
-
-            return new Beautician
-            {
-                PersonId = RoleId
+                PersonId = personId
             };
 
+        }
+
+        private static Beautician SetBeauticianObject(int personId)
+        {
+            return new Beautician
+            {
+                PersonId = personId
+            };
         }
     }
 }

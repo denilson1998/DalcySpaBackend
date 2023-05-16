@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Domain_Layer.Models.Result
 {
-    public class UserResult
+    public class GetTypeOfUser
     {
+        public int PersonId { get; set; }
     }
 }

@@ -5,13 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain_Layer.Entities
+namespace Domain_Layer.Models.Command
 {
-    public class Service
+    public class CreateRoleCommand
     {
-        [Key]
-        public int Id { get; set; }
+        [Required]
         public string Description { get; set; } = string.Empty;
-        public int CategoryId { get; set; }
     }
 }

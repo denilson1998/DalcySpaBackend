@@ -5,17 +5,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain_Layer.Entities
+namespace Domain_Layer.Models.Command
 {
-    public class Appointment
+    public class CreateAppointmentCommand
     {
-        [Key]
-        public int Id { get; set; }
+        [Required]
         public string Description { get; set; }
+        [Required]
         public DateTime Date { get; set; }
+        [Required]
         public int ClientId { get; set; }
+        [Required]
         public int BeauticianId { get; set; }
+        [Required]
         public int ServiceId { get; set; }
+        [Required]
         public int TurnId { get; set; }
     }
 }

@@ -12,46 +12,98 @@ namespace Application_Layer.Controllers
     [ApiController]
     public class ServiceController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly ICategoryRepository _categoryRepository;
         private readonly IServiceRepository _serviceRepository;
-        public ServiceController(IMapper mapper, ICategoryRepository categoryRepository, IServiceRepository serviceRepository)
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IMapper _mapper;
+        public ServiceController(IServiceRepository serviceRepository, ICategoryRepository categoryRepository, IMapper mapper)
         {
-            _mapper = mapper;
-            _categoryRepository = categoryRepository;
             _serviceRepository = serviceRepository;
+            _categoryRepository = categoryRepository;
+            _mapper = mapper;
         }
 
         [HttpPost("CreateService")]
-        public async Task<ActionResult<ServiceResult>> CreateService(ServiceCommand command)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<CreateServiceResult>> CreateService(CreateServiceCommand request)
         {
             try
             {
-                Category category = await _categoryRepository.GetCategoryById(command.CategoryId);
+
+                Category category = await _categoryRepository.GetCategoryByIdAsync(request.CategoryId);
 
                 if (category is null)
                 {
-                    return BadRequest("Category not found");
+                    return NotFound("Category not found.");
                 }
 
-                Service service = SetServiceObject(command);
+                Service service = SetServiceObject(request);
 
                 var serviceCreated = await _serviceRepository.CreateServiceAsync(service);
 
-                var result = _mapper.Map<ServiceResult>(serviceCreated);
+                var result = _mapper.Map<CreateServiceResult>(serviceCreated);
 
-                return Created("Service Created", result);
+                return Created("Service created", result);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
-        private static Service SetServiceObject(ServiceCommand service)
+        [HttpGet("GetCategoryServices/{categoryId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<List<CreateServiceResult>>> GetCategoryServices(int categoryId)
         {
-            return new Service
+            try
+            {
+                var services = await _serviceRepository.GetServicesByCategoryId(categoryId);
+
+                if (services.Count == 0)
+                {
+                    return NotFound("There are no services with this categoryId");
+                }
+
+                var result = _mapper.Map<List<CreateServiceResult>>(services);
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet("GetService/{serviceId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<CreateServiceResult>> GetService(int serviceId)
+        {
+            try
+            {
+                Service service = await _serviceRepository.GetServiceByIdAsync(serviceId);
+
+                if (service is null)
+                {
+                    return NotFound("Service not found.");
+                }
+
+                var result = _mapper.Map<CreateServiceResult>(service);
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        private static Service SetServiceObject(CreateServiceCommand service)
+        {
+            return new Service()
             {
                 Description = service.Description,
                 CategoryId = service.CategoryId

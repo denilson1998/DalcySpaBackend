@@ -7,9 +7,13 @@ using System.Threading.Tasks;
 
 namespace Domain_Layer.Models.Command
 {
-    public class CategoryCommand
+    public class CreateTurnCommand
     {
         [Required]
-        public string Description { get; set; } = string.Empty;
+        public string Description { get; set; }
+        [Required]
+        public DateTime StartTime { get; set; }
+        [Required]
+        public DateTime EndTime { get; set; }
     }
 }

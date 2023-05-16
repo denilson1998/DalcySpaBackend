@@ -9,9 +9,16 @@ namespace Application_Layer
     {
         public AutoMapper()
         {
-            CreateMap<Role, RoleResult>();
-            CreateMap<User, UserResult>();
-            CreateMap<Category, CategoryResult>();
+            CreateMap<Role, CreateRoleResult>();
+            CreateMap<User, CreateUserResult>();
+            CreateMap<Category, CreateCategoryResult>();
+            CreateMap<Service, CreateServiceResult>();
+            CreateMap<Turn, CreateTurnResult>();
+            CreateMap<ServiceTurn, CreateServiceTurnResult>();
+            CreateMap<Appointment, CreateAppointmentResult>();
+            CreateMap<Client, GetTypeOfUser>();
+            CreateMap<Beautician, GetTypeOfUser>();
+            CreateMap<Observation, CreateObservationResult>();
         }
     }
 }

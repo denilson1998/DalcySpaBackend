@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace Domain_Layer.Entities
 {
-    public class Service
+    public class Turn
     {
         [Key]
         public int Id { get; set; }
-        public string Description { get; set; } = string.Empty;
-        public int CategoryId { get; set; }
+        public string Description { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
     }
 }
