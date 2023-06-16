@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Domain_Layer.Persistence.Repositories
 {
-    public interface IRoleRepository
+    public interface ITurnRepository
     {
-        public Task<Role> CreateRoleAsync(Role role);
+        public Task<Turn> CreateTurnAsync(Turn turn);
+
+        public Task<Turn> GetTurnByIdAsync(int turnId);
     }
 }

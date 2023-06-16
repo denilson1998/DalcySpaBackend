@@ -1,30 +1,34 @@
 ﻿using AutoMapper;
 using Domain_Layer.Entities;
+using Domain_Layer.Models.Command;
+using Domain_Layer.Models.Result;
 using Domain_Layer.Persistence.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Application_Layer.Endpoints.Roles
+namespace Application_Layer.Endpoints
 {
-    //[Route("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class Create : ControllerBase
+    public class RoleController : ControllerBase
     {
 
         private readonly IMapper _mapper;
         private readonly IRoleRepository _roleRepository;
-        public Create(IMapper mapper, IRoleRepository roleRepository)
+        public RoleController(IMapper mapper, IRoleRepository roleRepository)
         {
             _mapper = mapper;
             _roleRepository = roleRepository;
         }
 
-        [HttpPost("api/CreateRole")]
+        [HttpPost("CreateRole")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<CreateRoleResult>> CreateRole(CreateRoleCommand request)
         {
             try
             {
-                Rol role = SetRoleObject(request);
+                Role role = SetRoleObject(request);
 
                 var roleCreated = await _roleRepository.CreateRoleAsync(role);
 
@@ -38,10 +42,10 @@ namespace Application_Layer.Endpoints.Roles
                 throw;
             }
         }
-
-        private static Rol SetRoleObject(CreateRoleCommand roleData)
+            
+        private static Role SetRoleObject(CreateRoleCommand roleData)
         {
-            return new Rol
+            return new Role
             {
                 Description = roleData.Description
             };

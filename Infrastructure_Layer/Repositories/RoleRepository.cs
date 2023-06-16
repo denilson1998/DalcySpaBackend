@@ -15,7 +15,7 @@ namespace Infrastructure_Layer.Repositories
         {
             _dbContext = dbContext;    
         } 
-        public async Task<Rol> CreateRoleAsync(Rol role)
+        public async Task<Role> CreateRoleAsync(Role role)
         {
             await _dbContext.Roles.AddAsync(role);
             await _dbContext.SaveChangesAsync();
