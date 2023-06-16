@@ -28,7 +28,7 @@ builder.Services.AddTransient<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddTransient<IObservationRepository, ObservationRepository>();
 
 var app = builder.Build();
-//---Prueba
+//---Prueba2
 
 if (app.Environment.IsDevelopment())
 {
